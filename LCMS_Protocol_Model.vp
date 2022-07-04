@@ -25,15 +25,15 @@ principal Manufacturer[
     knows private skMan
     pkMan = G^skMan
     
-    knows private uid1
+    knows private uid0
     knows private uidN
-    proofUid1 = HASH(uidN)
-    M_batchRoot = HASH(HASH(uid1),HASH(uidN))
+    proofUid0 = HASH(uidN)
+    M_batchRoot = HASH(HASH(uid0),HASH(uidN))
 
     batchRootProof = SIGN(skMan,M_batchRoot)
 
     knows private shkey1
-    enc_provisioning = ENC(shkey1,CONCAT(skSoC,uid1,pkMan,batchRootProof))
+    enc_provisioning = ENC(shkey1,CONCAT(skSoC,uid0,pkMan,batchRootProof))
 ]
 
 //correspond to initial provisioning
@@ -47,9 +47,9 @@ principal SoC[
     knows private skMan //don't really know this value
     I_pkMan = G^skMan
     
-    knows private uid1
+    knows private uid0
     knows private uidN // don't really know this value but need it to articifially provision batchRoot
-    I_batchRoot = HASH(HASH(uid1),HASH(uidN))
+    I_batchRoot = HASH(HASH(uid0),HASH(uidN))
 
     I_batchRootProof = SIGN(skMan,I_batchRoot)
 ]
@@ -69,21 +69,21 @@ Manufacturer -> Blockchain: [batchRootProof]//,[pkMan]
 phase[2]
 //Commercial trades occurs here
 
- //senddUid1InAccProof:
-Manufacturer -> Alice: M_batchRoot,proofUid1,M_pkSoC,pkMan
+ //senddUidAndAccProof:
+Manufacturer -> Alice: M_batchRoot,proofUid0,M_pkSoC,pkMan
 //phase 3: Manufacurer send necessary data to prove to Alice that the SoC is legit
 
 //,not modeled: getScript
 
 principal SoC[
-    signUid1 = SIGN(skSoC,uid1)
+    signUid0 = SIGN(skSoC,uid0)
 
     //knows private shkey2//trick to secure comms beetween SoC and Alice
-    //enc_uid1 = ENC(shkey2, uid1)
+    //enc_uid0 = ENC(shkey2, uid0)
 ]
 
 // scriptResp:
-SoC -> Alice: signUid1, uid1 
+SoC -> Alice: signUid0, uid0 
 
 //not modeled : getBatchInfo with paramters contractAddr, batchAddr
 
@@ -94,19 +94,19 @@ Blockchain -> Alice: [batchRootProof]
 principal Alice [
     //Alice check the validity of the proof
     //knows private shkey2
-    //A_uid1 = DEC(shkey2, enc_uid1)
+    //A_uid0 = DEC(shkey2, enc_uid0)
     
     //batchRoot rebuild
-    A_batchRoot = HASH(HASH(uid1),proofUid1)
+    A_batchRoot = HASH(HASH(uid0),proofUid0)
     _ = ASSERT(A_batchRoot,M_batchRoot)?
 
-    _ = SIGNVERIF(M_pkSoC,uid1,signUid1)?
+    _ = SIGNVERIF(M_pkSoC,uid0,signUid0)?
     _ = SIGNVERIF(pkMan, A_batchRoot,batchRootProof)?
 
     //Alice creates a new merkle root tree to prepare the ownership transfert
     generates salt
     Hsalt = HASH(salt)
-    newBatchRoot = HASH(HASH(uid1),HASH(salt))
+    newBatchRoot = HASH(HASH(uid0),HASH(salt))
     newBatchRootProof = SIGN(skAlice,newBatchRoot)
 ]
 
@@ -115,7 +115,7 @@ Alice -> Manufacturer: salt, newBatchRoot, newBatchRootProof
 
 principal Manufacturer[
     //Manufcaturer check the validiy of the merkle tree and sign it to prepare the update of the smart contract
-    _ = ASSERT(HASH(HASH(uid1),HASH(salt)),newBatchRoot)?
+    _ = ASSERT(HASH(HASH(uid0),HASH(salt)),newBatchRoot)?
     _ = SIGNVERIF(pkAlice,newBatchRoot,newBatchRootProof)?
 
     newOwnershipProof = SIGN(skMan,newBatchRootProof)
@@ -143,7 +143,7 @@ Alice -> SoC: newOwnershipProof, salt, newBatchRoot, newBatchRootProof, pkAlice
 
 principal SoC[
  //SoC check link beetween his new owner (Alice) and the first one (Man)
-    _ = ASSERT(HASH(HASH(uid1),HASH(salt)),newBatchRoot)?
+    _ = ASSERT(HASH(HASH(uid0),HASH(salt)),newBatchRoot)?
     _ = SIGNVERIF(I_pkMan,newBatchRootProof,newOwnershipProof)?
     _ = SIGNVERIF(pkAlice, newBatchRoot, newBatchRootProof)?
 ]
