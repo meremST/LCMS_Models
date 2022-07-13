@@ -39,7 +39,7 @@ With "path/to" the path to the `LCMS_Protocol_Model.vp` file.
 
 Protocol verification takes several hours.
 
-VerifPal can also generate the following visual representation:
+VerifPal can also generate the following visual representation thanks to its [visual studio extension](https://marketplace.visualstudio.com/items?itemName=symbolicsoft.verifpal):
 
 ![](figures/LCMS_protocolDiagram.png)
 
