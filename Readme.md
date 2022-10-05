@@ -29,10 +29,10 @@ This sequence diagram contains references to sub-diagrams that are given below.
 
 ### About Verifpal Version
 
-The original version of Verifpal used for the paper was the 0.26. Since version 0.27 corrects a bug, Verifpal find potential attack on our model.
-After analysis the attack seems to be a false positive: 
-In the protocol there are several successive checks. It seems that earlier checks should stop the iteration, but VerifPal continues exploring it. 
-The problem is that we are not sure that this counter example does not mask a real attack.
+The original version of Verifpal used for this work was 0.26. Since then, version 0.27 fixed a bug, and Verifpal now finds a potential attack on our model.
+After analysis, this attack seems to be a false positive.
+In the protocol, there are several successive checks. It seems that earlier checks should stop the iteration with a detection of the attack. However, VerifPal ignores earlier checks, which leads it to consider the scenario as a valid attack. 
+The problem is that we are now unsure whether this counterexample masks a real attack, or not.
 
 ### Run the Model
 The full VerifPal model is available in [LCMS_Protocol_Model.vp](LCMS_Protocol_Model.vp).
