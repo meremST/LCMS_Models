@@ -1,4 +1,4 @@
-[![DOI](https://zenodo.org/badge/492838715.svg)](https://zenodo.org/badge/latestdoi/492838715)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7014517.svg)](https://doi.org/10.5281/zenodo.7014517)
 
 This repository contains verifiable models and associated material for our System-on-Chip (SoC) Life Cycle Management System (LCMS) case study.
 Two distinct aspects of this LCMS are modeled:
