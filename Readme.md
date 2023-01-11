@@ -1,6 +1,8 @@
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7014517.svg)](https://doi.org/10.5281/zenodo.7014517)
 
-This repository contains verifiable models and associated material for our System-on-Chip (SoC) Life Cycle Management System (LCMS) case study.
+
+This repository is the additionnal material this [research paper](https://doi.org/10.1145/3550355.3552454).
+It contains verifiable models and associated material for our System-on-Chip (SoC) Life Cycle Management System (LCMS) case study.
 Two distinct aspects of this LCMS are modeled:
 * Its cryptographic protocol, using [VerifPal](https://verifpal.com/).
 * Its architecture model, using [AnimUML](https://github.com/fjouault/AnimUML).
